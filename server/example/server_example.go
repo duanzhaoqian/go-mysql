@@ -4,9 +4,9 @@ import (
 	"net"
 
 	"github.com/siddontang/go-log/log"
-	"github.com/siddontang/go-mysql/mysql"
-	"github.com/siddontang/go-mysql/server"
-	"github.com/siddontang/go-mysql/test_util/test_keys"
+	"github.com/duanzhaoqian/go-mysql/mysql"
+	"github.com/duanzhaoqian/go-mysql/server"
+	"github.com/duanzhaoqian/go-mysql/test_util/test_keys"
 
 	"crypto/tls"
 	"time"
@@ -23,12 +23,12 @@ func (m *RemoteThrottleProvider) GetCredential(username string) (password string
 }
 
 func main() {
-	l, _ := net.Listen("tcp", "127.0.0.1:3306")
+	l, _ := net.Listen("tcp", ":3306")
 	// user either the in-memory credential provider or the remote credential provider (you can implement your own)
 	//inMemProvider := server.NewInMemoryProvider()
 	//inMemProvider.AddUser("root", "123")
 	remoteProvider := &RemoteThrottleProvider{server.NewInMemoryProvider(), 10 + 50}
-	remoteProvider.AddUser("root", "123")
+	remoteProvider.AddUser("qhuser", "qhuser")
 	var tlsConf = server.NewServerTLSConfig(test_keys.CaPem, test_keys.CertPem, test_keys.KeyPem, tls.VerifyClientCertIfGiven)
 	for {
 		c, _ := l.Accept()
@@ -36,6 +36,7 @@ func main() {
 			// Create a connection with user root and an empty password.
 			// You can use your own handler to handle command here.
 			svr := server.NewServer("8.0.12", mysql.DEFAULT_COLLATION_ID, mysql.AUTH_CACHING_SHA2_PASSWORD, test_keys.PubPem, tlsConf)
+			//svr := server.NewServer("5.7.26", mysql.DEFAULT_COLLATION_ID, mysql.AUTH_NATIVE_PASSWORD, test_keys.PubPem, tlsConf)
 			conn, err := server.NewCustomizedConn(c, svr, remoteProvider, server.EmptyHandler{})
 
 			if err != nil {

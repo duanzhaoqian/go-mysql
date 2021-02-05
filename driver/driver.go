@@ -10,8 +10,8 @@ import (
 	"strings"
 
 	"github.com/pingcap/errors"
-	"github.com/siddontang/go-mysql/client"
-	"github.com/siddontang/go-mysql/mysql"
+	"github.com/duanzhaoqian/go-mysql/client"
+	"github.com/duanzhaoqian/go-mysql/mysql"
 	"github.com/siddontang/go/hack"
 )
 

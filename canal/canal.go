@@ -3,6 +3,11 @@ package canal
 import (
 	"context"
 	"fmt"
+	"github.com/duanzhaoqian/go-mysql/client"
+	"github.com/duanzhaoqian/go-mysql/dump"
+	"github.com/duanzhaoqian/go-mysql/mysql"
+	"github.com/duanzhaoqian/go-mysql/replication"
+	"github.com/duanzhaoqian/go-mysql/schema"
 	"io/ioutil"
 	"os"
 	"regexp"
@@ -15,11 +20,6 @@ import (
 	"github.com/pingcap/errors"
 	"github.com/pingcap/parser"
 	"github.com/siddontang/go-log/log"
-	"github.com/siddontang/go-mysql/client"
-	"github.com/siddontang/go-mysql/dump"
-	"github.com/siddontang/go-mysql/mysql"
-	"github.com/siddontang/go-mysql/replication"
-	"github.com/siddontang/go-mysql/schema"
 )
 
 // Canal can sync your MySQL data into everywhere, like Elasticsearch, Redis, etc...
